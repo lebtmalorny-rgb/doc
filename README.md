@@ -4,6 +4,7 @@
 
 | Документ | Содержание |
 |---|---|
+| [Проверка ролевой модели PVS](PVS_ROLE_MODEL_REVIEW_2026-09-21.md) | Сопоставление с архивом от 21.09, уточнение ДКБ-РМ-12–15, матрица прав, Vault и аудит |
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
 | [Prometheus и Grafana](PROMETHEUS_GRAFANA_ADMIN_GUIDE.md) | Exporters, jobs, метрики, правила, уведомления и два поставляемых дашборда |
