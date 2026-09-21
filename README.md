@@ -8,6 +8,7 @@
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
 | [Prometheus и Grafana](PROMETHEUS_GRAFANA_ADMIN_GUIDE.md) | Exporters, jobs, метрики, правила, уведомления и два поставляемых дашборда |
+| [Исправление получения метрик Watcher](WATCHER_PROMETHEUS_FIX_GUIDE.md) | FQDN и адрес datasource, согласование labels, CPU/RAM ВМ всех пользователей, TLS и проверка результата |
 
 Во всех документах разделены настройки в `globals.yml` / `globals.d`, defaults в `ansible/group_vars/all.yml` и отдельных ролях, исходные overrides и сгенерированные конфиги.
 
