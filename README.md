@@ -8,6 +8,7 @@
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
 | [Prometheus и Grafana](PROMETHEUS_GRAFANA_ADMIN_GUIDE.md) | Exporters, jobs, метрики, правила, уведомления и два поставляемых дашборда |
+| [Справочник метрик exporters — Epoxy 2025.1](PROMETHEUS_EXPORTERS_METRICS_EPOXY_2025_1.md) | Названия, описания, типы, единицы и labels; vanilla-версии, расширенные каталоги и несовместимые зависимости PVS |
 | [Исправление получения метрик Watcher](WATCHER_PROMETHEUS_FIX_GUIDE.md) | FQDN и адрес datasource, согласование labels, CPU/RAM ВМ всех пользователей, TLS и проверка результата |
 
 Во всех документах разделены настройки в `globals.yml` / `globals.d`, defaults в `ansible/group_vars/all.yml` и отдельных ролях, исходные overrides и сгенерированные конфиги.
@@ -21,11 +22,15 @@
 | `kolla-ansible-pvs_1.0.0_21.09zip.zip` | `365af98421ff35db2e9ca5ee605723a1bcc8e756` |
 | `masakari-pvs_1.0.0_21.09.zip` | `702480386d63c935a6f1b143fbd65f54dba63f52` |
 | `watcher-pvs_1.0.0_21.09.zip` | `96eeba4c5b8ce30f29fd7d6461bdac28fdfdfa4d` |
+| `kolla-ansible-enroll-ironic-patch-3.zip` | `5db3c8eed90d69a85e3761ff7f55cb72d7fde94f` |
+
+Справочник метрик от 22.09.2026 дополнительно сверяет оба Kolla-архива с ванильными exporters из Kolla `stable/2025.1`; точный upstream-срез указан в самом документе.
 
 Контрольные суммы SHA-256 исходных архивов:
 
 ```text
 e68e98cb5ce6d2384ebf90c4ff1e6a9b779efe986ae11a83bc8cb1b556bfe004  kolla-ansible-pvs_1.0.0_21.09zip.zip
+12403a06d810cbdfe560bc104472f6fe3b1f38b572f9c9e59212329ab6a37db3  kolla-ansible-enroll-ironic-patch-3.zip
 cf40ec62cdde2795499e7e46e6f5599fe9beb90b07c16c8a988f28d436469156  masakari-pvs_1.0.0_21.09.zip
 67722deaa94b4e606620519c34a3db84f3253c492e7238f78bf0045a65c2ac0b  watcher-pvs_1.0.0_21.09.zip
 ```
