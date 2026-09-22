@@ -1,9 +1,10 @@
 # Административная документация OpenStack / Kolla-Ansible
 
-Документы подготовлены по исходникам архивов ветки `pvs_1.0.0`, предоставленных 21.09.2026. В каждом руководстве сначала дана краткая справка от общего к частному, затем параметры, детали реализации и порядок проверки.
+Документы подготовлены по предоставленным исходникам OpenStack и Kolla-Ansible; основная база — архивы ветки `pvs_1.0.0` от 21.09.2026. Для отдельных документов используются более поздний Kolla-архив и патчи, перечисленные в их разделах об источниках. В руководствах сначала дана краткая справка, затем параметры, детали реализации и порядок проверки.
 
 | Документ | Содержание |
 |---|---|
+| [Важные параметры Mistral, Masakari, Watcher, Consul и Ironic](OPENSTACK_SERVICE_PARAMETERS.md) | Defaults, точные места определения, единицы и назначение, overrides, VMClone/PowerOps, recovery, метрики, BMC и проверка конфигов |
 | [Проверка ролевой модели PVS](PVS_ROLE_MODEL_REVIEW_2026-09-21.md) | Сопоставление с архивом от 21.09, уточнение ДКБ-РМ-12–15, матрица прав, Vault и аудит |
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
@@ -23,14 +24,18 @@
 | `masakari-pvs_1.0.0_21.09.zip` | `702480386d63c935a6f1b143fbd65f54dba63f52` |
 | `watcher-pvs_1.0.0_21.09.zip` | `96eeba4c5b8ce30f29fd7d6461bdac28fdfdfa4d` |
 | `kolla-ansible-enroll-ironic-patch-3.zip` | `5db3c8eed90d69a85e3761ff7f55cb72d7fde94f` |
+| `mistral-integration-powerops-mistral-2025.1.zip` | `99514c4e11fa2dfdc00dd8de5aa7f5ca07300514` |
 
 Справочник метрик от 22.09.2026 дополнительно сверяет оба Kolla-архива с ванильными exporters из Kolla `stable/2025.1`; точный upstream-срез указан в самом документе.
+
+Справочник параметров от 22.09.2026 использует Kolla `enroll-ironic-patch-3` и Mistral с применёнными патчами [VMClone v1](https://github.com/lebtmalorny-rgb/mistral_live_cloning/tree/02e07a20bc6fdd2102e91fe5d7fe5c6331afaabe). Настройки, добавленные патчем, отделены от исходных defaults. Версии Masakari/Watcher и контрольные суммы исходных архивов указаны в самом справочнике.
 
 Контрольные суммы SHA-256 исходных архивов:
 
 ```text
 e68e98cb5ce6d2384ebf90c4ff1e6a9b779efe986ae11a83bc8cb1b556bfe004  kolla-ansible-pvs_1.0.0_21.09zip.zip
 12403a06d810cbdfe560bc104472f6fe3b1f38b572f9c9e59212329ab6a37db3  kolla-ansible-enroll-ironic-patch-3.zip
+71f28efd2c97bbd82f1b5ecd2fdbaa3dd6fb4de69cb2c36469fa2b86308a0a55  mistral-integration-powerops-mistral-2025.1.zip
 cf40ec62cdde2795499e7e46e6f5599fe9beb90b07c16c8a988f28d436469156  masakari-pvs_1.0.0_21.09.zip
 67722deaa94b4e606620519c34a3db84f3253c492e7238f78bf0045a65c2ac0b  watcher-pvs_1.0.0_21.09.zip
 ```
