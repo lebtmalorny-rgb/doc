@@ -4,6 +4,7 @@
 
 | Документ | Содержание |
 |---|---|
+| [Короткий backlog HA / PowerOps / VMClone](OPENSTACK_BACKLOG.md) | Готовые, но не внедрённые патчи; Ironic, Watcher, эвакуация, возврат хоста и поэтапный запуск ВМ |
 | [Важные параметры Mistral, Masakari, Watcher, Consul и Ironic](OPENSTACK_SERVICE_PARAMETERS.md) | Defaults, точные места определения, единицы и назначение, overrides, VMClone/PowerOps, recovery, метрики, BMC и проверка конфигов |
 | [Проверка ролевой модели PVS](PVS_ROLE_MODEL_REVIEW_2026-09-21.md) | Сопоставление с архивом от 21.09, уточнение ДКБ-РМ-12–15, матрица прав, Vault и аудит |
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
