@@ -12,6 +12,7 @@
 | [Проверка ролевой модели PVS](PVS_ROLE_MODEL_REVIEW_2026-09-21.md) | Сопоставление с архивом от 21.09, уточнение ДКБ-РМ-12–15, матрица прав, Vault и аудит |
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
+| [Минимальные правки firewall для live migration](LIVE_MIGRATION_FIREWALL_MINIMAL_FIX.md) | Форк от 23.09: недостающие QEMU-порты, варианты для общей и отдельной сети migration, точные YAML/Python-правки и проверка |
 | [Prometheus и Grafana](PROMETHEUS_GRAFANA_ADMIN_GUIDE.md) | Exporters, jobs, метрики, правила, уведомления и два поставляемых дашборда |
 | [Справочник метрик exporters — Epoxy 2025.1](PROMETHEUS_EXPORTERS_METRICS_EPOXY_2025_1.md) | Названия, описания, типы, единицы и labels; vanilla-версии, расширенные каталоги и несовместимые зависимости PVS |
 | [Исправление получения метрик Watcher](WATCHER_PROMETHEUS_FIX_GUIDE.md) | FQDN и адрес datasource, согласование labels, CPU/RAM ВМ всех пользователей, TLS и проверка результата |
