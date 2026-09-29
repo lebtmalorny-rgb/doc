@@ -16,6 +16,9 @@
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
 | [Минимальные правки firewall для live migration](LIVE_MIGRATION_FIREWALL_MINIMAL_FIX.md) | Форк от 23.09: недостающие QEMU-порты, варианты для общей и отдельной сети migration, точные YAML/Python-правки и проверка |
+| [Разбор USCR hardening](ANALYSIS_HARDENING.md) | Охват ОС, 36 модулей, дополнительные сценарии, предварительные проверки и ограничения |
+| [Совместимость USCR с Kolla-Ansible](KOLLA_HARDENING_COMPATIBILITY.md) | Форк от 23.09: SELinux, host-firewall, bootstrap/deploy/reconfigure и конфликты общего профиля |
+| [Роли USCR при приоритете Kolla](USCR_ROLES_FOR_KOLLA.md) | Пять базовых ролей после адаптации запуска, условно применимые меры и исключения |
 | [Prometheus и Grafana](PROMETHEUS_GRAFANA_ADMIN_GUIDE.md) | Exporters, jobs, метрики, правила, уведомления и два поставляемых дашборда |
 | [Справочник метрик exporters — Epoxy 2025.1](PROMETHEUS_EXPORTERS_METRICS_EPOXY_2025_1.md) | Названия, описания, типы, единицы и labels; vanilla-версии, расширенные каталоги и несовместимые зависимости PVS |
 | [Исправление получения метрик Watcher](WATCHER_PROMETHEUS_FIX_GUIDE.md) | FQDN и адрес datasource, согласование labels, CPU/RAM ВМ всех пользователей, TLS и проверка результата |
@@ -40,6 +43,8 @@
 
 Справочник параметров от 22.09.2026 использует Kolla `enroll-ironic-patch-3` и Mistral с применёнными патчами [VMClone v1](https://github.com/lebtmalorny-rgb/mistral_live_cloning/tree/02e07a20bc6fdd2102e91fe5d7fe5c6331afaabe). Настройки, добавленные патчем, отделены от исходных defaults. Версии Masakari/Watcher и контрольные суммы исходных архивов указаны в самом справочнике.
 
+Документы по USCR hardening от 29.09.2026 используют `uscr-production@290a25d1e36-v3.zip` и `kolla-ansible-pvs_1.0.0_23.09.zip`. Приоритет реализации SELinux, host-firewall и жизненного цикла деплоя остаётся за Kolla-Ansible. Указатели на исходники в этих документах оформлены сносками с путями внутри архивов. Применение ролей на узлах не выполнялось.
+
 Контрольные суммы SHA-256 исходных архивов:
 
 ```text
@@ -48,6 +53,8 @@ e68e98cb5ce6d2384ebf90c4ff1e6a9b779efe986ae11a83bc8cb1b556bfe004  kolla-ansible-
 71f28efd2c97bbd82f1b5ecd2fdbaa3dd6fb4de69cb2c36469fa2b86308a0a55  mistral-integration-powerops-mistral-2025.1.zip
 cf40ec62cdde2795499e7e46e6f5599fe9beb90b07c16c8a988f28d436469156  masakari-pvs_1.0.0_21.09.zip
 67722deaa94b4e606620519c34a3db84f3253c492e7238f78bf0045a65c2ac0b  watcher-pvs_1.0.0_21.09.zip
+bdfd76ff19c82389e9603ca0fa764aa72dbdd4c076f5452746def80aece53e09  uscr-production@290a25d1e36-v3.zip
+39ac2c83db8c13454fd3b73e2d3ba3d0473ad9f2e6808442c69f594d0c2379e2  kolla-ansible-pvs_1.0.0_23.09.zip
 ```
 
 ## Граница проверки
