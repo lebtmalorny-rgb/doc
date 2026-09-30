@@ -4,6 +4,7 @@
 
 | Документ | Содержание |
 |---|---|
+| [Исследование изменяемых правил размещения ВМ](VM_PLACEMENT_RULES_ARCHITECTURE_RESEARCH_2026-09-29.md) | Affinity/anti-affinity, обязательные и желательные правила, применение без остановки, отдельная HA-политика; границы Nova, Placement, Watcher, Mistral и Masakari; сравнение с VMware |
 | [Короткий backlog HA / PowerOps / VMClone](OPENSTACK_BACKLOG.md) | Готовые, но не внедрённые патчи; Ironic, Watcher, эвакуация, возврат хоста и поэтапный запуск ВМ |
 | [Важные параметры Mistral, Masakari, Watcher, Consul и Ironic](OPENSTACK_SERVICE_PARAMETERS.md) | Defaults, точные места определения, единицы и назначение, overrides, VMClone/PowerOps, recovery, метрики, BMC и проверка конфигов |
 | [NanoKVM: неверное состояние питания после enroll в Ironic](IRONIC_NANOKVM_POWER_STATE_DIAGNOSTICS.md) | HTTP :8000, переход None → power off при включённых хостах, проверка Power LED/GPIO, Sushy и синхронизации Ironic |
