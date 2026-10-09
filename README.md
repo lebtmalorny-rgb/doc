@@ -4,6 +4,7 @@
 
 | Документ | Содержание |
 |---|---|
+| [Автоматический расчёт capacity и ограничения эвакуации](NOVA_MASAKARI_CAPACITY_RECOMMENDATIONS.md) | Автоматический расчёт резервов CPU/RAM в Kolla-Ansible, настройки Nova, пороги 60%/85%, предлагаемые проверки Masakari и граница Mistral |
 | [Исследование изменяемых правил размещения ВМ](VM_PLACEMENT_RULES_ARCHITECTURE_RESEARCH_2026-09-29.md) | Affinity/anti-affinity, обязательные и желательные правила, применение без остановки, отдельная HA-политика; границы Nova, Placement, Watcher, Mistral и Masakari; сравнение с VMware |
 | [Короткий backlog HA / PowerOps / VMClone](OPENSTACK_BACKLOG.md) | Готовые, но не внедрённые патчи; Ironic, Watcher, эвакуация, возврат хоста и поэтапный запуск ВМ |
 | [Важные параметры Mistral, Masakari, Watcher, Consul и Ironic](OPENSTACK_SERVICE_PARAMETERS.md) | Defaults, точные места определения, единицы и назначение, overrides, VMClone/PowerOps, recovery, метрики, BMC и проверка конфигов |
