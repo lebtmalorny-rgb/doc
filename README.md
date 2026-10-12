@@ -18,6 +18,7 @@
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
 | [Минимальные правки firewall для live migration](LIVE_MIGRATION_FIREWALL_MINIMAL_FIX.md) | Форк от 23.09: недостающие QEMU-порты, варианты для общей и отдельной сети migration, точные YAML/Python-правки и проверка |
+| [Доставка multipath.conf в Nova и Cinder](KOLLA_MULTIPATH_NOVA_CINDER_FIX.md) | Точные правки Kolla-Ansible, единый источник конфигурации, идемпотентность, применение и проверки FC/multipath |
 | [Разбор USCR hardening](ANALYSIS_HARDENING.md) | Охват ОС, 36 модулей, дополнительные сценарии, предварительные проверки и ограничения |
 | [Совместимость USCR с Kolla-Ansible](KOLLA_HARDENING_COMPATIBILITY.md) | Форк от 23.09: SELinux, host-firewall, bootstrap/deploy/reconfigure и конфликты общего профиля |
 | [Роли USCR при приоритете Kolla](USCR_ROLES_FOR_KOLLA.md) | Пять базовых ролей после адаптации запуска, условно применимые меры и исключения |
@@ -46,6 +47,8 @@
 Справочник параметров от 22.09.2026 использует Kolla `enroll-ironic-patch-3` и Mistral с применёнными патчами [VMClone v1](https://github.com/lebtmalorny-rgb/mistral_live_cloning/tree/02e07a20bc6fdd2102e91fe5d7fe5c6331afaabe). Настройки, добавленные патчем, отделены от исходных defaults. Версии Masakari/Watcher и контрольные суммы исходных архивов указаны в самом справочнике.
 
 Документы по USCR hardening от 29.09.2026 используют `uscr-production@290a25d1e36-v3.zip` и `kolla-ansible-pvs_1.0.0_23.09.zip`. Приоритет реализации SELinux, host-firewall и жизненного цикла деплоя остаётся за Kolla-Ansible. Указатели на исходники в этих документах оформлены сносками с путями внутри архивов. Применение ролей на узлах не выполнялось.
+
+Инструкция по доставке `multipath.conf` от 12.10.2026 использует отдельно предоставленные `kolla-ansible-pvs.zip` и `cinder-pvs.zip`; их SHA-256 указаны в самой инструкции. YAML/Jinja-примеры проверены локально, изменения в исходники и на стенд не применялись.
 
 Контрольные суммы SHA-256 исходных архивов:
 
