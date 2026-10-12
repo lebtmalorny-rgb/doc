@@ -18,7 +18,9 @@
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
 | [Минимальные правки firewall для live migration](LIVE_MIGRATION_FIREWALL_MINIMAL_FIX.md) | Форк от 23.09: недостающие QEMU-порты, варианты для общей и отдельной сети migration, точные YAML/Python-правки и проверка |
-| [Доставка multipath.conf в Nova и Cinder](KOLLA_MULTIPATH_NOVA_CINDER_FIX.md) | Точные правки Kolla-Ansible, единый источник конфигурации, идемпотентность, применение и проверки FC/multipath |
+| [FC/multipath: что делать сейчас](KOLLA_MULTIPATH_NOVA_CINDER_FIX.md#что-делать-сейчас) | Первый фикс в четыре шага: доставка multipath.conf, применение и проверка; os-brick/Huawei разбираются отдельно, если ошибка detach остаётся |
+| [FC/multipath: краткая сводка](openstack_dorado_fc_summary.md) | Симптомы и порядок устранения для OpenStack Epoxy / Huawei Dorado V6 |
+| [FC/multipath: расширенное исследование](openstack_dorado_multipath_investigation.md) | Владение конфигурацией, Podman mounts, kpartx, FC-disconnect, диагностика и границы доказательств |
 | [Разбор USCR hardening](ANALYSIS_HARDENING.md) | Охват ОС, 36 модулей, дополнительные сценарии, предварительные проверки и ограничения |
 | [Совместимость USCR с Kolla-Ansible](KOLLA_HARDENING_COMPATIBILITY.md) | Форк от 23.09: SELinux, host-firewall, bootstrap/deploy/reconfigure и конфликты общего профиля |
 | [Роли USCR при приоритете Kolla](USCR_ROLES_FOR_KOLLA.md) | Пять базовых ролей после адаптации запуска, условно применимые меры и исключения |
@@ -48,7 +50,7 @@
 
 Документы по USCR hardening от 29.09.2026 используют `uscr-production@290a25d1e36-v3.zip` и `kolla-ansible-pvs_1.0.0_23.09.zip`. Приоритет реализации SELinux, host-firewall и жизненного цикла деплоя остаётся за Kolla-Ansible. Указатели на исходники в этих документах оформлены сносками с путями внутри архивов. Применение ролей на узлах не выполнялось.
 
-Инструкция по доставке `multipath.conf` от 12.10.2026 использует отдельно предоставленные `kolla-ansible-pvs.zip` и `cinder-pvs.zip`; их SHA-256 указаны в самой инструкции. YAML/Jinja-примеры проверены локально, изменения в исходники и на стенд не применялись.
+Рекомендации по FC/multipath от 12.10.2026 используют отдельно предоставленные `kolla-ansible-pvs.zip` и `cinder-pvs.zip`; их SHA-256 указаны в инструкции. В начале выделен первый фикс и критерии его проверки. Расширенное исследование и краткая сводка включены рядом. YAML/Jinja-примеры проверены локально, изменения в исходники и на стенд не применялись. Выводы об архиве os-brick и его изолированных пробах взяты из исследования; при обновлении рекомендаций эти пробы не запускались.
 
 Контрольные суммы SHA-256 исходных архивов:
 
