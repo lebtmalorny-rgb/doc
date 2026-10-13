@@ -21,6 +21,7 @@
 | [FC/multipath: что делать сейчас](KOLLA_MULTIPATH_NOVA_CINDER_FIX.md#что-делать-сейчас) | Первый фикс в четыре шага: доставка multipath.conf, применение и проверка; os-brick/Huawei разбираются отдельно, если ошибка detach остаётся |
 | [FC/multipath: итоговые рекомендации](openstack_dorado_fc_summary.md) | Upstream-фиксы Nova/Cinder, доставка конфигурации, поведение reconfigure и критерии приёмки |
 | [FC/multipath: расширенное исследование](openstack_dorado_multipath_investigation.md) | Владение конфигурацией, Podman mounts, kpartx, FC-disconnect, диагностика и границы доказательств |
+| [Glance и FC/iSCSI multipath](GLANCE_CINDER_MULTIPATH_FIX.md) | Когда нужен фикс Cinder store, готовые upstream-патчи, доставка multipath.conf, доступ к устройствам и проверка reconfigure |
 | [Разбор USCR hardening](ANALYSIS_HARDENING.md) | Охват ОС, 36 модулей, дополнительные сценарии, предварительные проверки и ограничения |
 | [Совместимость USCR с Kolla-Ansible](KOLLA_HARDENING_COMPATIBILITY.md) | Форк от 23.09: SELinux, host-firewall, bootstrap/deploy/reconfigure и конфликты общего профиля |
 | [Роли USCR при приоритете Kolla](USCR_ROLES_FOR_KOLLA.md) | Пять базовых ролей после адаптации запуска, условно применимые меры и исключения |
