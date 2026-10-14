@@ -22,7 +22,7 @@
 | [FC/multipath: итоговые рекомендации](openstack_dorado_fc_summary.md) | Upstream-фиксы Nova/Cinder, доставка конфигурации, поведение reconfigure и критерии приёмки |
 | [FC/multipath: расширенное исследование](openstack_dorado_multipath_investigation.md) | Владение конфигурацией, Podman mounts, kpartx, FC-disconnect, диагностика и границы доказательств |
 | [Glance и FC/iSCSI multipath](GLANCE_CINDER_MULTIPATH_FIX.md) | Когда нужен фикс Cinder store, готовые upstream-патчи, доставка multipath.conf, доступ к устройствам и проверка reconfigure |
-| [Доставка multipath.conf: ITkey и рекомендации для PVS](ITKEY_MULTIPATH_DELIVERY_COMPARISON.md) | Конфиг демона через Ansible, минимальные файлы в клиентских образах ITkey, сравнение с управляемой доставкой через config_files и поведение reconfigure |
+| [Доставка multipath.conf: ITkey и рекомендации для PVS](ITKEY_MULTIPATH_DELIVERY_COMPARISON.md) | Схемы ITkey/PVS, требования к хостам, условная доставка host-конфига через Ansible, владение демоном, reconfigure и приёмка |
 | [Разбор USCR hardening](ANALYSIS_HARDENING.md) | Охват ОС, 36 модулей, дополнительные сценарии, предварительные проверки и ограничения |
 | [Совместимость USCR с Kolla-Ansible](KOLLA_HARDENING_COMPATIBILITY.md) | Форк от 23.09: SELinux, host-firewall, bootstrap/deploy/reconfigure и конфликты общего профиля |
 | [Роли USCR при приоритете Kolla](USCR_ROLES_FOR_KOLLA.md) | Пять базовых ролей после адаптации запуска, условно применимые меры и исключения |
