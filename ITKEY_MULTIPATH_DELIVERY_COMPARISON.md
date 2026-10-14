@@ -2,6 +2,21 @@
 
 Дата проверки: **14.10.2026**.
 
+## Схемы рендера и доставки
+
+| Случай | Короткая схема |
+|---|---|
+| **ITkey: демон** | Источник → Ansible/Jinja → `/etc/kolla/multipathd/` на хосте → mount каталога → `kolla_set_configs` → `/etc/multipath.conf` в контейнере |
+| **ITkey: Nova/Cinder/Glance** | Сборка образа → минимальный `defaults {}` в слое → `/etc/multipath.conf` в контейнере; Ansible-рендера нет |
+| **PVS: контейнеры, рекомендация** | Общий источник → Ansible/Jinja для каждой роли → `/etc/kolla/<service>/` → mount каталога → `kolla_set_configs` → `/etc/multipath.conf` каждого контейнера |
+| **PVS: ОС хоста, условная рекомендация** | Общий источник → Ansible/Jinja → сразу хостовый `/etc/multipath.conf` → локальные утилиты/udev |
+
+Для PVS включаются только нужные потребители; Glance — при Cinder FC/iSCSI store
+с multipath. `kolla_set_configs` копирует уже отрендеренный файл. У ITkey доставка
+в **хостовый** `/etc/multipath.conf` в проверенных задачах не найдена.
+
+## Основание проверки
+
 Основа: локальные образы ITkey `ks2025.2.2` и `ks2026.2`, извлечённые роли
 Kolla-Ansible и ранее подготовленные рекомендации для `kolla-ansible-pvs`.
 Проверены исходники и содержимое архивов. Работающая инфраструктура не проверялась.
@@ -148,7 +163,7 @@ defaults {
 |---|---|---|
 | Конфиг демона | Рендер и доставка Ansible | Тот же механизм |
 | Конфиг клиентов | Минимальный файл в образе | Рендер и доставка Ansible |
-| Хостовый `/etc/multipath.conf` | Проверка образов не устанавливает состояние ОС целевого хоста | Отдельная условная доставка при наличии хостовых потребителей |
+| Хостовый `/etc/multipath.conf` | В проверенных задачах доставки нет; состояние базовой ОС и работающего хоста не установлено | Отдельная условная доставка при наличии хостовых потребителей |
 | Политика клиентов | Параметры явно не заданы в файле | Согласована с выбранным источником демона |
 | Настройки конкретного хоста | Применяются к демону | Применяются ко всем включённым потребителям на этом хосте |
 | Изменение общего источника | Клиентские файлы остаются прежними | Обновляются при выполнении соответствующих ролей |
@@ -204,6 +219,88 @@ image-transfer и повторного `reconfigure`.
 Код форка и инфраструктура в рамках этого сравнения не изменены.
 
 ## 7. Что должно быть на хостах
+
+### 7.1. Как ITkey подготавливает хосты
+
+Подготовка распределена между образом ОС, `bootstrap-servers` и ролями Kolla:
+
+```text
+Образ ОС → bootstrap-servers → Kolla multipathd → systemd-зависимости контейнеров
+```
+
+Ниже разделены подтверждённые действия исходников и состояние, которое ещё
+нужно проверить на целевой ОС. Наличие задачи не доказывает её выполнение
+на конкретном узле; `enable_multipathd` по умолчанию равен `"no"`.
+
+1. **Сборка образа ОС.** В комплекте `installer 2/project_k/` рецепт
+   `services/dib/elements/ubuntu-keystack/post-install.d/51-disable-multipathd`
+   явно отключает и маскирует `multipathd.service` и `multipathd.socket`.
+   Это действие выполняется при подготовке **Ubuntu-образа**. В изученном
+   рецепте SberLinux аналогичное действие не найдено; состояние исходного
+   SberLinux-образа этим поиском не установлено.
+
+2. **Bootstrap и общая настройка ОС.** В `installer/repo/project_k/`
+   pipeline `ci/keystack/deploy.yml` вызывает
+   `kolla-ansible bootstrap-servers`. Встроенная коллекция `openstack.kolla`
+   подготавливает ОС и контейнерный runtime. В её `roles/packages/defaults/main.yml`
+   обеих проверенных версий для Debian/Ubuntu при включённом `enable_multipathd`
+   добавляется `sg3-utils-udev`. Явной установки `multipath-tools` или
+   `device-mapper-multipath` в этих списках нет; пакет может уже находиться
+   в базовом образе. Отдельный job `host-config` запускает
+   `ci/keystack/ansible-roles/site.yml` с параметрами из
+   `/etc/kolla/host_config/host-config.yml`; в проверенных ролях этой общей
+   настройки ОС задач multipath не найдено.
+
+3. **Модуль ядра.** `ansible/roles/multipathd/tasks/config-host.yml` вызывает
+   роль `module-load` для `dm-multipath`. Она загружает модуль через `modprobe`
+   и сохраняет его загрузку в `/etc/modules-load.d/dm-multipath.conf` на хосте.
+   При `kolla_action == "config"` эти действия пропускаются.
+
+4. **Конфиг и доступ к устройствам.** Роль формирует на хосте
+   `/etc/kolla/multipathd/multipath.conf`, затем устанавливает его в контейнер
+   по схеме раздела 1. Контейнер привилегированный, с доступом к хостовым
+   `/dev`, `/run`, `/lib/modules` и `/sys/kernel/config`.
+   Хостовый `/etc/multipath.conf` эта роль не создаёт.
+
+5. **Systemd-зависимости контейнеров.** В `ks2026.2` роль
+   `systemd-dependencies` при включённых настройках и наличии соответствующих
+   units создаёт следующие зависимости:
+
+   ```text
+   kolla-multipathd-container.service:
+     Wants=kolla-nova_compute-container.service
+
+   kolla-nova_compute-container.service:
+     BindsTo=kolla-multipathd-container.service
+   ```
+
+   Роль проверяет обычные unit-файлы и Quadlet, записывает drop-in в
+   `/etc/systemd/system/kolla-<service>-container.service.d/systemd-dependencies.conf`
+   и вызывает `daemon_reload`. Это управление связями **контейнерных units**;
+   оно не отключает системный `multipathd.service`. В этом шаблоне нет
+   `After=` и проверки готовности SAN-путей. Параметр
+   `enable_systemd_dependencies` в `ks2026.2` по умолчанию равен `"yes"`.
+
+Источники внутри образов Kolla-Ansible:
+
+- `/root/.ansible/collections/ansible_collections/openstack/kolla/roles/baremetal/`
+  и `roles/packages/` в той же коллекции;
+- `ansible/roles/multipathd/tasks/config-host.yml`, `tasks/config.yml`,
+  `defaults/main.yml`, `templates/multipathd.json.j2`;
+- `ansible/roles/module-load/tasks/main.yml`;
+- `ansible/roles/systemd-dependencies/{defaults/main.yml,tasks/,templates/}`
+  и `ansible/group_vars/all.yml` для `ks2026.2`.
+
+**Граница подтверждения для SberLinux:** не установлены фактический состав
+базового образа, установленные udev-правила, хостовый `/etc/multipath.conf`
+и состояние системных `multipathd.service/socket` на работающих узлах.
+Отключение демона в Ubuntu-рецепте не подтверждает его отключение в SberLinux.
+
+Предлагаемая ниже доставка `/etc/multipath.conf` непосредственно в ОС PVS —
+дополнительная условная задача для хостовых потребителей. Она не является
+копированием найденной реализации ITkey.
+
+### 7.2. Требования к целевому хосту
 
 Контейнеры используют ядро и блочные устройства целевого хоста. Само ядро
 `multipath.conf` не читает: его читают пользовательские процессы в своём
@@ -467,7 +564,8 @@ podman exec -u 0 nova_compute multipath -t
 5. Повторное применение без изменений не меняет host-файл и не перезапускает
    контейнеры из-за этого исправления. Остальные задачи плейбука оцениваются отдельно.
 
-**Граница результата:** дополнение описывает целевую схему и предлагаемую
-Ansible-задачу. Это не подтверждение host-конфигурации ITkey или PVS в эксплуатации.
+**Граница результата:** документ описывает проверенный по исходникам механизм
+ITkey, целевую схему PVS и предлагаемую Ansible-задачу. Это не подтверждение
+host-конфигурации ITkey или PVS в эксплуатации.
 Код ролей, состояние сервисов, конфигурация хостов и `initramfs` не изменены;
 стендовая приёмка не выполнена.
