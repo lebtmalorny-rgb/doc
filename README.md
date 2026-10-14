@@ -8,6 +8,8 @@
 | [Исследование изменяемых правил размещения ВМ](VM_PLACEMENT_RULES_ARCHITECTURE_RESEARCH_2026-09-29.md) | Affinity/anti-affinity, обязательные и желательные правила, применение без остановки, отдельная HA-политика; границы Nova, Placement, Watcher, Mistral и Masakari; сравнение с VMware |
 | [Короткий backlog HA / PowerOps / VMClone](OPENSTACK_BACKLOG.md) | Готовые, но не внедрённые патчи; Ironic, Watcher, эвакуация, возврат хоста и поэтапный запуск ВМ |
 | [Важные параметры Mistral, Masakari, Watcher, Consul и Ironic](OPENSTACK_SERVICE_PARAMETERS.md) | Defaults, точные места определения, единицы и назначение, overrides, VMClone/PowerOps, recovery, метрики, BMC и проверка конфигов |
+| [Выключение хостов при reconfigure Consul: краткий вывод](CONSUL_RECONFIGURE_HA_FINDINGS.md) | Связь рестарта Consul, обнаружения отказа Hostmonitor и fencing Masakari через Ironic; подтверждения по коду и граница проверки |
+| [Consul и HA: рекомендации по устранению](CONSUL_RECONFIGURE_HA_RECOMMENDATIONS.md) | Maintenance до реконфигурации, последовательный рестарт, независимые HTTP endpoint-ы, samples и проверка результата |
 | [NanoKVM: неверное состояние питания после enroll в Ironic](IRONIC_NANOKVM_POWER_STATE_DIAGNOSTICS.md) | HTTP :8000, переход None → power off при включённых хостах, проверка Power LED/GPIO, Sushy и синхронизации Ironic |
 | [Кратко по требованиям КБ](<КБ_кратко_по_требованиям_2026-09-23.md>) | Ключевые требования, реализованные механизмы и оставшиеся пробелы по четырём блокам |
 | [ДКБ: оценка первого релиза](DKB_RELEASE_1_REVIEW_2026-09-28.md) | 94 строки релиза 1.0 из нового XLSX, реализация архива от 23.09, разрывы и необходимые подтверждения |
