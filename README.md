@@ -18,6 +18,8 @@
 | [Интеграция с Active Directory](LDAP_AD_ADMIN_GUIDE.md) | LDAP/LDAPS, Keystone, Horizon, Grafana, OpenSearch, группы и назначения ролей |
 | [Firewall](FIREWALL_ADMIN_GUIDE.md) | Порты, разрешённые и запрещённые направления, firewalld, каталог потоков, проверка и откат |
 | [Минимальные правки firewall для live migration](LIVE_MIGRATION_FIREWALL_MINIMAL_FIX.md) | Форк от 23.09: недостающие QEMU-порты, варианты для общей и отдельной сети migration, точные YAML/Python-правки и проверка |
+| [Multipath и Dorado V6: простое объяснение](MULTIPATH_DORADO_V6_HOST_CONTAINERS_EXPLAINED.md) | Один LUN и несколько путей, ядро хоста и контейнерный демон, udev, конфиги и различие ошибок |
+| [Dorado V6: Logical unit not supported — диагностика и исправление](DORADO_V6_LOGICAL_UNIT_NOT_SUPPORTED_RUNBOOK.md) | Сопоставление sdX/WWID/тома/mapping, проверка потребителей, восстановление доступа, условная очистка и разбор повторного сбоя detach |
 | [FC/multipath: что делать сейчас](KOLLA_MULTIPATH_NOVA_CINDER_FIX.md#что-делать-сейчас) | Первый фикс в четыре шага: доставка multipath.conf, применение и проверка; os-brick/Huawei разбираются отдельно, если ошибка detach остаётся |
 | [FC/multipath: итоговые рекомендации](openstack_dorado_fc_summary.md) | Upstream-фиксы Nova/Cinder, доставка конфигурации, поведение reconfigure и критерии приёмки |
 | [FC/multipath: расширенное исследование](openstack_dorado_multipath_investigation.md) | Владение конфигурацией, Podman mounts, kpartx, FC-disconnect, диагностика и границы доказательств |
