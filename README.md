@@ -22,6 +22,7 @@
 | [Минимальные правки firewall для live migration](LIVE_MIGRATION_FIREWALL_MINIMAL_FIX.md) | Форк от 23.09: недостающие QEMU-порты, варианты для общей и отдельной сети migration, точные YAML/Python-правки и проверка |
 | [Multipath и Dorado V6: простое объяснение](MULTIPATH_DORADO_V6_HOST_CONTAINERS_EXPLAINED.md) | Один LUN и несколько путей, ядро хоста и контейнерный демон, udev, конфиги и различие ошибок |
 | [Dorado V6: Logical unit not supported — диагностика и исправление](DORADO_V6_LOGICAL_UNIT_NOT_SUPPORTED_RUNBOOK.md) | Сопоставление sdX/WWID/тома/mapping, проверка потребителей, восстановление доступа, условная очистка и разбор повторного сбоя detach |
+| [Ansible: диагностика FC/multipath, Dorado и томов](kolla-storage-diagnostics/README.md) | Inventory Kolla → отчёты Markdown/JSON по хостам: конфиги, FC/SCSI/DM, контейнеры и журналы Nova/Cinder/Glance; без автоматического исправления |
 | [FC/multipath: что делать сейчас](KOLLA_MULTIPATH_NOVA_CINDER_FIX.md#что-делать-сейчас) | Первый фикс в четыре шага: доставка multipath.conf, применение и проверка; os-brick/Huawei разбираются отдельно, если ошибка detach остаётся |
 | [FC/multipath: итоговые рекомендации](openstack_dorado_fc_summary.md) | Upstream-фиксы Nova/Cinder, доставка конфигурации, поведение reconfigure и критерии приёмки |
 | [FC/multipath: расширенное исследование](openstack_dorado_multipath_investigation.md) | Владение конфигурацией, Podman mounts, kpartx, FC-disconnect, диагностика и границы доказательств |
@@ -73,5 +74,7 @@ bdfd76ff19c82389e9603ca0fa764aa72dbdd4c076f5452746def80aece53e09  uscr-productio
 ## Граница проверки
 
 Это анализ исходников, не отчёт о состоянии действующего облака. Доступность портов, LDAP-вход, получение метрик и доставка уведомлений на стенде не проверялись. Команды в документах при их подготовке на инфраструктуре не выполнялись.
+
+Каталог [kolla-storage-diagnostics](kolla-storage-diagnostics/README.md) содержит самостоятельный диагностический playbook, модули, примеры и тесты. Результаты локальной проверки и её ограничения приведены в [VERIFICATION.md](kolla-storage-diagnostics/VERIFICATION.md); сбор на реальных хостах Kolla/Dorado не выполнялся.
 
 В руководствах отмечены ограничения конкретной ветки: неполное покрытие потоков firewall, несовпадение группы Prometheus в каталоге firewall и inventory, отсутствие импортируемого `pvs_post_config.yml`, условия загрузки правил и дашбордов. До применения изменяющих команд необходимо учесть соответствующие разделы.

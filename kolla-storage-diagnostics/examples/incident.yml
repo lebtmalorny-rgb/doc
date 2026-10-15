@@ -1,0 +1,26 @@
+---
+# Copy and edit this file. Times below are examples, not the time of your incident.
+storage_diag_options:
+  runtime: auto                 # auto | podman | docker | none
+  since: '2026-10-14T09:00:00Z'
+  until: '2026-10-14T10:00:00Z'
+  boot: 0                       # 0 current boot; -1 previous boot for kernel journal
+  wwid: ''                      # e.g. 3600...; literal extra log search, no device filtering
+  volume_id: ''                 # UUID Cinder
+  request_id: ''                # req-...
+  command_timeout: 10           # seconds per command
+  command_budget: 180           # total budget for subprocesses on each host
+  max_output_bytes: 262144      # per stdout/stderr stream
+  log_tail_bytes: 1048576       # last bytes of each selected file log
+  log_lines: 2000               # journal/container line cap and file excerpt cap
+  max_log_files: 40
+  max_devices: 2048
+  node_config_directory: /etc/kolla
+  log_directory: /var/log/kolla
+  containers:
+    - multipathd
+    - nova_compute
+    - nova_libvirt
+    - cinder_volume
+    - cinder_backup
+    - glance_api

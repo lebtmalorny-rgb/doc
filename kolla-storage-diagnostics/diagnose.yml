@@ -1,0 +1,97 @@
+---
+- name: Collect FC and multipath evidence from the selected Kolla hosts
+  hosts: "{{ storage_diag_hosts | default('all') }}"
+  gather_facts: false
+  strategy: linear
+  become: "{{ storage_diag_become | default(true) | bool }}"
+  vars:
+    storage_diag_output_base: "{{ playbook_dir }}/artifacts"
+  tasks:
+    - name: Reject check mode because it cannot produce a diagnostic result
+      ansible.builtin.assert:
+        that: not ansible_check_mode
+        fail_msg: "Use --list-hosts to review selection; run without --check to collect evidence."
+      run_once: true
+      delegate_to: localhost
+      become: false
+
+    - name: Create private output base on the controller
+      ansible.builtin.file:
+        path: "{{ storage_diag_output_base }}"
+        state: directory
+        mode: '0700'
+      run_once: true
+      delegate_to: localhost
+      become: false
+
+    - name: Allocate a unique run directory on the controller
+      ansible.builtin.tempfile:
+        state: directory
+        path: "{{ storage_diag_output_base }}"
+        prefix: storage-diag-
+      register: storage_diag_run
+      run_once: true
+      delegate_to: localhost
+      become: false
+
+    - name: Create the private records directory
+      ansible.builtin.file:
+        path: "{{ storage_diag_run.path }}/records"
+        state: directory
+        mode: '0700'
+      run_once: true
+      delegate_to: localhost
+      become: false
+
+    - name: Record all inventory hosts selected by the pattern and limit
+      ansible.builtin.copy:
+        dest: "{{ storage_diag_run.path }}/manifest.json"
+        mode: '0600'
+        content: "{{ {'hosts': ansible_play_hosts_all, 'schema_version': 1} | to_nice_json }}"
+      run_once: true
+      delegate_to: localhost
+      become: false
+
+    - name: Collect storage evidence without changing storage configuration
+      storage_diagnostics:
+        options: "{{ storage_diag_options | default({}) }}"
+      register: storage_diag_result
+      failed_when: false
+      ignore_errors: true
+      ignore_unreachable: true
+      no_log: true
+
+    - name: Save each result including unreachable and failed hosts
+      ansible.builtin.copy:
+        dest: "{{ storage_diag_run.path }}/records/{{ inventory_hostname | hash('sha256') }}.json"
+        mode: '0600'
+        content: >-
+          {{ {'host': inventory_hostname,
+              'status': ('unreachable' if storage_diag_result.unreachable | default(false)
+                         else ('ok' if storage_diag_result.report is defined else 'collector_failed')),
+              'report': storage_diag_result.report | default({}),
+              'transport_note': (storage_diag_result.diagnostic_error | default(
+                                'No collector report; inspect SSH/become/Python and options. '
+                                 'Raw Ansible exception omitted to avoid exposing credentials.'
+                                ) if storage_diag_result.report is not defined else '')}
+              | to_nice_json }}
+      delegate_to: localhost
+      become: false
+      no_log: true
+
+    - name: Build Markdown and JSON reports on the controller
+      ansible.builtin.command:
+        argv:
+          - "{{ ansible_playbook_python }}"
+          - "{{ playbook_dir }}/tools/render_report.py"
+          - "{{ storage_diag_run.path }}"
+      register: storage_diag_render
+      changed_when: false
+      run_once: true
+      delegate_to: localhost
+      become: false
+
+    - name: Show the location and coverage summary
+      ansible.builtin.debug:
+        msg: "{{ storage_diag_render.stdout }}"
+      run_once: true
